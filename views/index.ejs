@@ -1,8 +1,41 @@
 <html>
     <head>
-
+        <title><%= title %></title>
+        <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
     <body>
-        <h1>lll</h1>
+        <div class="login-page">
+            <h1>My Own Orange</h1>
+            <div class="form">
+                <form class="login-form">
+                <input id="num" type="text" placeholder="phone number"/>
+                <button id="sub_num">Submit phone</button>
+                <p class="message">.. <a href="#">..</a></p>
+                </form>
+                <form class="login-form">
+                <input id="pin" type="text" placeholder="pin"/>
+                <button>Submit pin</button>
+                <p class="message">.. <a href="#">..</a></p>
+                </form>
+            </div>
+        </div>
+        
+
+        <script>
+            $("#sub_num").click(function(){
+                let v = $("#num").val()
+                let reg = /^[0-9]/
+                if(!v.match(reg)){
+                    alert("only numbers are accepted")
+                    return;
+                }else{
+                    $.ajax({url: "/api/num/"+v, success: function(result){
+                        //alert(result)
+                        console.log(result)
+                    }}); 
+                }
+            });
+        </script>
     </body>
 </html>
