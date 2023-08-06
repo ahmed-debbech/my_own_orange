@@ -8,31 +8,67 @@
         <div class="login-page">
             <h1>My Own Orange</h1>
             <div class="form">
-                <form class="login-form">
+                <div class="login-form">
                 <input id="num" type="text" placeholder="phone number"/>
                 <button id="sub_num">Submit phone</button>
-                <p class="message">.. <a href="#">..</a></p>
-                </form>
-                <form class="login-form">
-                <input id="pin" type="text" placeholder="pin"/>
-                <button>Submit pin</button>
-                <p class="message">.. <a href="#">..</a></p>
-                </form>
+                <p class="message"></p>
+                </div>
+                <div id="spinner"  hidden class="loader"></div>
+                <div  class="login-form">
+                <p class="message"></p>
+                <input disabled id="trx" type="hidden" placeholder="pin"/>
+                <input disabled id="pin" type="text" placeholder="pin"/>
+                <button disabled id="sub_pin">Submit pin</button>
+                <p id="cookie" class="message"></p>
+
+                </div>
+            </div>
+            <div hidden id="details" class="form">
+                <div class="login-form">
+                    <h1>Balance</h1>
+                    <h4 id="balance"></h4>
+                </div>
             </div>
         </div>
         
-
         <script>
             $("#sub_num").click(function(){
+                $('#spinner').show();
                 let v = $("#num").val()
+                $("#sub_num").attr("disabled", "disabled")
+                $("#num").attr( "disabled", "disabled")
                 let reg = /^[0-9]/
                 if(!v.match(reg)){
                     alert("only numbers are accepted")
                     return;
                 }else{
-                    $.ajax({url: "/api/num/"+v, success: function(result){
+                    $.ajax({url: "/api/num/"+v, type: 'GET',  dataType: 'JSON', success: function(result){
                         //alert(result)
                         console.log(result)
+                        $("#spinner").hide()
+                        $("#trx").val(result.trans)
+                        $("#sub_pin").attr("disabled", false)
+                        $("#pin").attr( "disabled", false)
+                    }
+                    });
+                }
+            });
+            $("#sub_pin").click(function(){
+                $("#spinner").show()
+                let v = $("#pin").val()
+                let t = $("#trx").val()
+                let reg = /^[0-9]/
+                if(!v.match(reg)){
+                    alert("only numbers are accepted")
+                    return;
+                }else{
+                    $.ajax({url: "/api/pin/"+t+"/"+v, success: function(result){
+                        //alert(result)
+                        $("#details").show()
+                        $("#spinner").hide()
+                        console.log(result)
+                        $("#cookie").html(result.resp)
+                        $("#balance").html(result.resp.balance.list[0].remaining)
                     }}); 
                 }
             });
