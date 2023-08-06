@@ -40,15 +40,15 @@ router.get('/pin/:t/:p', async function(req, res, next) {
     console.log(re1.headers['set-cookie'])
     const cookie = (re1.headers['set-cookie'])[0]
 
-    Axios.request({
+    axios.request({
         url: "https://myorange.orange.tn/eden/v2/get?language=EN&subsection=account&subsection=balance",
         method: "get",
         headers:{
             Cookie: cookie
         } 
         
-   }).then((res)=>{
-        res.json({resp : res.data})
+   }).then((r)=>{
+        res.json({resp : r.data})
    })
 });
 module.exports = router;
