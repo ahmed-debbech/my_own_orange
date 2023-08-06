@@ -26,7 +26,7 @@ router.get('/num/:n', async function(req, res, next) {
             let re2 = await axios.get('https://ssowt.orange.tn'+err.response.data.FallBack)
             let trx = re2.data.split('TransID')[2].split('"')[4];
             
-            axios.get('https://ssowt.orange.tn/WT/OTPConnect/OTPRequest/?TransID='+trx+'&wt-msisdn=216'+req.params.n)
+            await axios.get('https://ssowt.orange.tn/WT/OTPConnect/OTPRequest/?TransID='+trx+'&wt-msisdn=216'+req.params.n)
             res.json({trans : trx})
         })
     }catch(error){
