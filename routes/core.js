@@ -49,6 +49,9 @@ router.get('/pin/:t/:p', async function(req, res, next) {
         
    }).then((r)=>{
         res.json({resp : r.data})
+   }).catch((error)=>{
+        res.json({resp : error.response.data})
+
    })
 });
 module.exports = router;
